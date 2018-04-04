@@ -7,6 +7,7 @@ export const deleteRecipe = (recipes, position) => {
     return dispatch => {
         try {
             recipes.splice(position);
+            localStorage.setItem('recipeBookStorage', JSON.stringify(recipes));
             dispatch({
                 type: DELETE_RECIPE,
                 payload: recipes

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import store from '../../store/store';
 import RecipeContainer from '../RecipeContainer';
-import AddRecipeButton from '../../components/Button';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 

@@ -22,7 +22,12 @@ export const closeRecipe = (recipes) => {
 export const saveRecipe = (recipes, recipe, position) => {
     return dispatch => {
         try {
-            recipes[position] = recipe;
+            if (position !== undefined) {
+                recipes[position] = recipe;
+            } else {
+                recipes.push(recipe);
+            }       
+            localStorage.setItem('recipeBookStorage', JSON.stringify(recipes));
             dispatch({
                 type: SAVE_RECIPE,
                 payload: recipes

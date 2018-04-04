@@ -4,7 +4,7 @@ import Button from '../../../components/Button';
 
 export default class RecipeItem extends Component {
     render() {
-        const { ingredients, key, title } = this.props;
+        const { ingredients, position, title } = this.props;
         const ingredientsList = ingredients.map((ingredient, index) => {
             return (
                 <RecipeIngredient key={index} name={ingredient} />
@@ -14,10 +14,10 @@ export default class RecipeItem extends Component {
             <div className='panel panel-success'>
                 <div className='panel-heading'>
                     <h4 className='panel-title'>
-                        <a data-toggle='collapse' href={`#collapse${key}`}>{title}</a>
+                        <a data-toggle='collapse' href={`#collapse${position}`}>{title}</a>
                     </h4>
                 </div>
-                <div id={`collapse${key}`} className='panel-collapse collapse'>
+                <div id={`collapse${position}`} className='panel-collapse collapse'>
                     <h5 className='text-center'>Ingredients</h5>
                     <hr className="hr" />
                     <ul className='list-group'>
