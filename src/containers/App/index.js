@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import RecipeContainer from '../RecipeContainer';
-import Button from '../../components/Button';
 import Modal from '../../components/Modal';
 
 export default class App extends Component {
@@ -10,7 +10,7 @@ export default class App extends Component {
                 <div className='row'>
                     <div className='col-md-12'>
                         <RecipeContainer />
-                        <Button />
+                        <Button bsStyle='primary'>Add Recipe</Button>
                         <Modal />
                     </div>
                 </div>

@@ -1,34 +1,48 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { Button, ButtonToolbar } from 'react-bootstrap';
+import { deleteRecipe, editRecipe } from '../actions';
+import { selectRecipes, selectEditRecipe } from '../selectors';
 import RecipeIngredient from '../RecipeIngredient';
-import Button from '../../../components/Button';
 
-export default class RecipeItem extends Component {
+class RecipeItem extends Component {
+
+    handleDelete = () => {
+        this.props.deleteRecipeAction(this.props.recipes, this.props.position);
+    }
+
     render() {
-        const { ingredients, position, title } = this.props;
+        const { ingredients, recipe, recipes, position } = this.props;
         const ingredientsList = ingredients.map((ingredient, index) => {
             return (
                 <RecipeIngredient key={index} name={ingredient} />
             );
         });
         return (
-            <div className='panel panel-success'>
-                <div className='panel-heading'>
-                    <h4 className='panel-title'>
-                        <a data-toggle='collapse' href={`#collapse${position}`}>{title}</a>
-                    </h4>
-                </div>
-                <div id={`collapse${position}`} className='panel-collapse collapse'>
-                    <h5 className='text-center'>Ingredients</h5>
-                    <hr className="hr" />
-                    <ul className='list-group'>
-                        {ingredientsList}
-                    </ul>
-                    <div className='buttons'>
-                        <Button className='btn btn-danger' onClick={this.handleDelete} />
-                        <Button className='btn btn-default' label='Edit' title='Edit recipe' recipeTitle={title} recipeIngredients={ingredients} recipeAction='Edit recipe' />
-                    </div>
-                </div>
+            <div>
+                <h5 className='text-center'>Ingredients</h5>
+                <hr className="hr" />
+                <ul className='list-group'>
+                    {ingredientsList}
+                </ul>
+                <ButtonToolbar>  
+                    <Button bsStyle='danger' onClick={this.handleDelete}>Delete</Button>
+                    <Button>Edit</Button>
+                </ButtonToolbar>
             </div>
         );
     }
 }
+
+const mapStateToProps = createStructuredSelector({
+    recipes: selectRecipes(),
+    recipe: selectEditRecipe()
+});
+
+const mapDispatchToProps = {
+    deleteRecipeAction: deleteRecipe,
+    editRecipeAction: editRecipe
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipeItem);
