@@ -1,28 +1,45 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { Button } from 'react-bootstrap';
+import { closeModal, openModal } from '../../components/Modal/actions';
+import { selectVisibility } from '../../components/Modal/selectors';
 import RecipeContainer from '../RecipeContainer';
 import ModalWindow from '../../components/Modal';
 
-export default class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            showModal: false
-        }
+class App extends Component {
+
+    modalOpen = () => {
+        this.props.modalOpenAction();
     }
+
+    modalClose = () => {
+        this.props.modalCloseAction();
+    }
+
     render() {
-        let modalOpen = () => this.setState({ showModal: true });
-        let modalClose = () => this.setState({ showModal: false });
+        let { showModal } = this.props;
         return (
             <div className='container'>
                 <div className='row'>
                     <div className='col-md-12'>
                         <RecipeContainer />
-                        <Button bsStyle='primary' onClick={modalOpen}>Add Recipe</Button>
-                        <ModalWindow show={this.state.showModal} onHide={modalClose} />
+                        <Button bsStyle='primary' onClick={this.modalOpen}>Add Recipe</Button>
+                        <ModalWindow show={showModal} onHide={this.modalClose} />
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = createStructuredSelector({
+    showModal: selectVisibility()
+});
+
+const mapDispatchToProps = {
+    modalCloseAction: closeModal,
+    modalOpenAction: openModal
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

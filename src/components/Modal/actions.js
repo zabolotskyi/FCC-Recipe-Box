@@ -1,40 +1,34 @@
 import {
-    CLOSE_RECIPE,
-    SAVE_RECIPE
+    CLOSE_MODAL,
+    OPEN_MODAL
 } from './constants';
 
-export const closeRecipe = (recipes) => {
+export const closeModal = () => {
     return dispatch => {
         try {
             dispatch({
-                type: CLOSE_RECIPE,
-                payload: recipes
+                type: CLOSE_MODAL,
+                payload: false
             });
         } catch(err) {
             dispatch({
-                type: 'CLOSE_RECIPE_ERROR',
+                type: 'CLOSE_MODAL_ERROR',
                 payload: err
             });
         }
     }
 }
 
-export const saveRecipe = (recipes, recipe, position) => {
+export const openModal = () => {
     return dispatch => {
         try {
-            if (position !== undefined) {
-                recipes[position] = recipe;
-            } else {
-                recipes.push(recipe);
-            }       
-            localStorage.setItem('recipeBookStorage', JSON.stringify(recipes));
             dispatch({
-                type: SAVE_RECIPE,
-                payload: recipes
+                type: OPEN_MODAL,
+                payload: true
             });
         } catch(err) {
             dispatch({
-                type: 'SAVE_RECIPE_ERROR',
+                type: 'OPEN_MODAL_ERROR',
                 payload: err
             });
         }

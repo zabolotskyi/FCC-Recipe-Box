@@ -1,6 +1,8 @@
 import {
+    CLOSE_RECIPE,
     DELETE_RECIPE,
-    EDIT_RECIPE
+    EDIT_RECIPE,
+    SAVE_RECIPE
 } from './constants';
 
 const initialState = {
