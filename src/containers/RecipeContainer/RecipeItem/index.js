@@ -3,32 +3,36 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { deleteRecipe, editRecipe } from '../actions';
-import { selectRecipes, selectEditRecipe } from '../selectors';
+import { selectRecipes } from '../selectors';
 import RecipeIngredient from '../RecipeIngredient';
 
 class RecipeItem extends Component {
 
     handleDelete = () => {
-        this.props.deleteRecipeAction(this.props.recipes, this.props.position);
+        this.props.deleteRecipeAction(this.props.position);
+    }
+
+    handleEdit = () => {
+        this.props.editRecipeAction({});
+    }
+
+    renderIngredientsList = () => {
+        const { ingredients } = this.props;
+        return ingredients.map((ingredient, index) => <RecipeIngredient key={index} name={ingredient} />);
     }
 
     render() {
-        const { ingredients, recipe, recipes, position } = this.props;
-        const ingredientsList = ingredients.map((ingredient, index) => {
-            return (
-                <RecipeIngredient key={index} name={ingredient} />
-            );
-        });
+        const { recipes, position } = this.props;
         return (
             <div>
                 <h5 className='text-center'>Ingredients</h5>
                 <hr className="hr" />
                 <ul className='list-group'>
-                    {ingredientsList}
+                    {this.renderIngredientsList()}
                 </ul>
                 <ButtonToolbar>  
                     <Button bsStyle='danger' onClick={this.handleDelete}>Delete</Button>
-                    <Button>Edit</Button>
+                    <Button onClick={this.handleEdit}>Edit</Button>
                 </ButtonToolbar>
             </div>
         );
@@ -36,8 +40,7 @@ class RecipeItem extends Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-    recipes: selectRecipes(),
-    recipe: selectEditRecipe()
+    recipes: selectRecipes()
 });
 
 const mapDispatchToProps = {

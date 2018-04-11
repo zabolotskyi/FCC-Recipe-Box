@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Panel } from 'react-bootstrap';
-import { selectRecipes, selectEditRecipe } from './selectors';
+import { selectRecipes } from './selectors';
 import RecipeItem from './RecipeItem';
 
 class RecipeContainer extends Component {
-    render() {
+
+    renderRecipeItems = () => {
         const { recipeList } = this.props;
-        const recipeItems = recipeList.map((recipe, index) => {
+        return recipeList.map((recipe, index) => {
             return (
                 <Panel bsStyle='success' key={index} >
                     <Panel.Heading>
@@ -22,15 +23,17 @@ class RecipeContainer extends Component {
                 </Panel>
             );
         });
+    }
+
+    render() {
         return (
-            <div className='well'>{recipeItems}</div>
+            <div className='well'>{this.renderRecipeItems()}</div>
         );
     }
 }
 
 const mapStateToProps = createStructuredSelector({
-    recipeList: selectRecipes(),
-    recipeEdit: selectEditRecipe()
+    recipeList: selectRecipes()
 });
 
 export default connect(mapStateToProps)(RecipeContainer);

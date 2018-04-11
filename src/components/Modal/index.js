@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { closeModal, openModal } from './actions';
+import { selectVisibility } from './selectors';
 import { Button, ButtonToolbar, FormGroup, Modal } from 'react-bootstrap';
 
-export default class ModalWindow extends Component {
+class ModalWindow extends Component {
+
+    modalClose = () => {
+        this.props.modalCloseAction();
+    }
+
     render() {
-        const { onHide } = this.props;
-        return (
+        const { showModal } = this.props;
+        return !showModal ? null : (
             <Modal>
                 <Modal.Header>
                     <Modal.Title>
@@ -22,10 +31,20 @@ export default class ModalWindow extends Component {
                 <Modal.Footer>
                     <ButtonToolbar>
                         <Button bsStyle='info'>Add Recipe</Button>
-                        <Button onClick={onHide}>Close</Button>
+                        <Button onClick={this.modalClose}>Close</Button>
                     </ButtonToolbar>
                 </Modal.Footer>
             </Modal>
         );
     }
 }
+
+const mapStateToProps = createStructuredSelector({
+    showModal: selectVisibility()
+});
+
+const mapDispatchToProps = {
+    modalCloseAction: closeModal
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalWindow);

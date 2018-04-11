@@ -7,13 +7,11 @@ export const closeModal = () => {
     return dispatch => {
         try {
             dispatch({
-                type: CLOSE_MODAL,
-                payload: false
+                type: CLOSE_MODAL
             });
         } catch(err) {
             dispatch({
-                type: 'CLOSE_MODAL_ERROR',
-                payload: err
+                type: 'CLOSE_MODAL_ERROR'
             });
         }
     }
@@ -23,13 +21,11 @@ export const openModal = () => {
     return dispatch => {
         try {
             dispatch({
-                type: OPEN_MODAL,
-                payload: true
+                type: OPEN_MODAL
             });
         } catch(err) {
             dispatch({
-                type: 'OPEN_MODAL_ERROR',
-                payload: err
+                type: 'OPEN_MODAL_ERROR'
             });
         }
     }

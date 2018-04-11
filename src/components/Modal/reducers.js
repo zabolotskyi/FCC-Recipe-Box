@@ -4,16 +4,16 @@ import {
 } from './constants';
 
 const initialState = {
-    visible: false
+    modalVisibility: false
 };
 
 const ModalReducer = (state = initialState, action) => {
     switch (action.type) {
         case CLOSE_MODAL:
-            return { ...state, visible: action.payload };
+            return { ...state, modalVisibility: false };
 
         case OPEN_MODAL:
-            return { ...state, visible: action.payload };
+            return { ...state, modalVisibility: true };
         
         default:
             return state;

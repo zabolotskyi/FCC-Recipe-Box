@@ -19,7 +19,7 @@ const RecipeContainerReducer = (state = initialState, action) => {
             return { ...state, recipes: action.payload };
 
         case EDIT_RECIPE:
-            return { ...state, recipe: action.payload };
+            return { ...state, recipes: action.payload };
         
         default:
             return state;

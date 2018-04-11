@@ -3,8 +3,10 @@ import {
     EDIT_RECIPE
 } from './constants';
 
-export const deleteRecipe = (recipes, position) => {
-    return dispatch => {
+export const deleteRecipe = position => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const recipes = state.RecipeContainerReducer.recipes;
         try {
             recipes.splice(position, 1);
             localStorage.setItem('recipeBookStorage', JSON.stringify(recipes));
@@ -21,8 +23,11 @@ export const deleteRecipe = (recipes, position) => {
     }
 }
 
-export const editRecipe = (recipes, position) => {
-    return dispatch => {
+export const editRecipe = position => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const recipe = state.RecipeContainerReducer.recipe;
+        const recipes = state.RecipeContainerReducer.recipes;
         try {
             const recipe = recipes.splice(position);
             dispatch({

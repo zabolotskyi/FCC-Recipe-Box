@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Button } from 'react-bootstrap';
-import { closeModal, openModal } from '../../components/Modal/actions';
-import { selectVisibility } from '../../components/Modal/selectors';
+import { openModal } from '../../components/Modal/actions';
 import RecipeContainer from '../RecipeContainer';
 import ModalWindow from '../../components/Modal';
 
@@ -13,19 +12,14 @@ class App extends Component {
         this.props.modalOpenAction();
     }
 
-    modalClose = () => {
-        this.props.modalCloseAction();
-    }
-
     render() {
-        let { showModal } = this.props;
         return (
             <div className='container'>
                 <div className='row'>
                     <div className='col-md-12'>
                         <RecipeContainer />
                         <Button bsStyle='primary' onClick={this.modalOpen}>Add Recipe</Button>
-                        <ModalWindow show={showModal} onHide={this.modalClose} />
+                        <ModalWindow />
                     </div>
                 </div>
             </div>
@@ -33,12 +27,9 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = createStructuredSelector({
-    showModal: selectVisibility()
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = {
-    modalCloseAction: closeModal,
     modalOpenAction: openModal
 }
 
