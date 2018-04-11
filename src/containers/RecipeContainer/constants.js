@@ -1,2 +1,2 @@
 export const DELETE_RECIPE = 'DELETE_RECIPE';
-export const EDIT_RECIPE = 'EDIT_RECIPE';
+export const START_EDIT_RECIPE = 'START_EDIT_RECIPE';

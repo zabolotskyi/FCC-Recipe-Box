@@ -1,18 +1,18 @@
 import {
     DELETE_RECIPE,
-    EDIT_RECIPE
+    START_EDIT_RECIPE
 } from './constants';
 
 export const deleteRecipe = position => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
+        const newRecipes = [].concat(recipes.slice(0, position)).concat(recipes.slice(position + 1));
         try {
-            recipes.splice(position, 1);
-            localStorage.setItem('recipeBookStorage', JSON.stringify(recipes));
+            localStorage.setItem('recipeBookStorage', JSON.stringify(newRecipes));
             dispatch({
                 type: DELETE_RECIPE,
-                payload: recipes
+                payload: newRecipes
             });
         } catch(err) {
             dispatch({
@@ -23,20 +23,19 @@ export const deleteRecipe = position => {
     }
 }
 
-export const editRecipe = position => {
+export const startEditRecipe = position => {
     return (dispatch, getState) => {
         const state = getState();
-        const recipe = state.RecipeContainerReducer.recipe;
         const recipes = state.RecipeContainerReducer.recipes;
+        const recipe = recipes[position];
         try {
-            const recipe = recipes.splice(position);
             dispatch({
-                type: EDIT_RECIPE,
+                type: START_EDIT_RECIPE,
                 payload: recipe
             })
         } catch(err) {
             dispatch({
-                type: 'EDIT_RECIPE_ERROR',
+                type: 'START_EDIT_RECIPE_ERROR',
                 payload: err
             });
         }

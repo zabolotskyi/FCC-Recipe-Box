@@ -11,7 +11,8 @@ export const closeModal = () => {
             });
         } catch(err) {
             dispatch({
-                type: 'CLOSE_MODAL_ERROR'
+                type: 'CLOSE_MODAL_ERROR',
+                payload: err
             });
         }
     }
@@ -25,7 +26,8 @@ export const openModal = () => {
             });
         } catch(err) {
             dispatch({
-                type: 'OPEN_MODAL_ERROR'
+                type: 'OPEN_MODAL_ERROR',
+                payload: err
             });
         }
     }

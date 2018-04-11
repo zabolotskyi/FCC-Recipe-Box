@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { Button, ButtonToolbar } from 'react-bootstrap';
-import { deleteRecipe, editRecipe } from '../actions';
+import { deleteRecipe, startEditRecipe } from '../actions';
 import { selectRecipes } from '../selectors';
 import RecipeIngredient from '../RecipeIngredient';
 
@@ -12,8 +12,8 @@ class RecipeItem extends Component {
         this.props.deleteRecipeAction(this.props.position);
     }
 
-    handleEdit = () => {
-        this.props.editRecipeAction({});
+    handleStartEdit = () => {
+        this.props.startEditRecipeAction(this.props.position);
     }
 
     renderIngredientsList = () => {
@@ -32,7 +32,7 @@ class RecipeItem extends Component {
                 </ul>
                 <ButtonToolbar>  
                     <Button bsStyle='danger' onClick={this.handleDelete}>Delete</Button>
-                    <Button onClick={this.handleEdit}>Edit</Button>
+                    <Button onClick={this.handleStartEdit}>Edit</Button>
                 </ButtonToolbar>
             </div>
         );
@@ -45,7 +45,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
     deleteRecipeAction: deleteRecipe,
-    editRecipeAction: editRecipe
+    startEditRecipeAction: startEditRecipe
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeItem);

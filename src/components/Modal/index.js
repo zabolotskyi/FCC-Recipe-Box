@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { closeModal, openModal } from './actions';
+import { closeModal } from './actions';
 import { selectVisibility } from './selectors';
 import { Button, ButtonToolbar, FormGroup, Modal } from 'react-bootstrap';
 
@@ -10,11 +10,11 @@ class ModalWindow extends Component {
     modalClose = () => {
         this.props.modalCloseAction();
     }
-
+    
     render() {
         const { showModal } = this.props;
-        return !showModal ? null : (
-            <Modal>
+        return (
+            <Modal show={showModal}>
                 <Modal.Header>
                     <Modal.Title>
                         Edit Recipe
