@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createSelector, createStructuredSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 import { closeModal } from './actions';
 import { saveNewRecipe } from '../../containers/RecipeContainer/actions';
 import { selectVisibility } from './selectors';
-import { selectCurrentRecipe, selectCurrentPosition, selectRecipes } from '../../containers/RecipeContainer/selectors';
+import { selectCurrentRecipe } from '../../containers/RecipeContainer/selectors';
 import { Button, ButtonToolbar, FormGroup, Modal, ControlLabel, FormControl } from 'react-bootstrap';
 
 class ModalWindow extends Component {
@@ -24,8 +24,8 @@ class ModalWindow extends Component {
     }
     
     render() {
-        const { currentRecipe, showModal, recipes, position } = this.props;
-        console.log(currentRecipe);
+        const { currentRecipe, showModal } = this.props;
+        console.log('!!! ' + currentRecipe);
         return (
             <Modal show={showModal}>
                 <Modal.Header>
@@ -36,7 +36,7 @@ class ModalWindow extends Component {
                 <Modal.Body>
                     <form>
                         <FormGroup>
-                            <ControlLabel>{currentRecipe.title || 'Recipe'}</ControlLabel>
+                            <ControlLabel>Recipe</ControlLabel>
                             <FormControl id='recipe-title' type='text' placeholder='Recipe Name' />
                         </FormGroup>
                         <FormGroup>
@@ -56,13 +56,9 @@ class ModalWindow extends Component {
     }
 }
 
-
-
 const mapStateToProps = createStructuredSelector({
     showModal: selectVisibility(),
-    recipes: selectRecipes(),
-    position: selectCurrentPosition(),
-    currentRecipe: selectCurrentRecipe
+    currentRecipe: selectCurrentRecipe()
 });
 
 const mapDispatchToProps = {

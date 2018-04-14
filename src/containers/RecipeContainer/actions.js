@@ -51,7 +51,6 @@ export const startEditRecipe = position => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
-        //const recipe = recipes[position];
         try {
             dispatch({
                 type: START_EDIT_RECIPE,
