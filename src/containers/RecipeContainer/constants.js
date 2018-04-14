@@ -1,2 +1,3 @@
 export const DELETE_RECIPE = 'DELETE_RECIPE';
+export const SAVE_NEW_RECIPE = 'SAVE_NEW_RECIPE';
 export const START_EDIT_RECIPE = 'START_EDIT_RECIPE';

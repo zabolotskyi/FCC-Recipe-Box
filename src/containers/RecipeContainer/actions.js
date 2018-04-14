@@ -1,13 +1,15 @@
 import {
     DELETE_RECIPE,
+    SAVE_NEW_RECIPE,
     START_EDIT_RECIPE
 } from './constants';
+import { closeModal, openModal } from '../../components/Modal/actions';
 
 export const deleteRecipe = position => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
-        const newRecipes = [].concat(recipes.slice(0, position)).concat(recipes.slice(position + 1));
+        const newRecipes = recipes.slice(0, position).concat(recipes.slice(position + 1));
         try {
             localStorage.setItem('recipeBookStorage', JSON.stringify(newRecipes));
             dispatch({
@@ -23,16 +25,40 @@ export const deleteRecipe = position => {
     }
 }
 
+export const saveNewRecipe = recipe => {
+    return (dispatch, getState) => {
+        const state = getState();
+        const recipes = state.RecipeContainerReducer.recipes;
+        recipes.push(recipe);
+        const newRecipes = recipes;
+        try {
+            localStorage.setItem('recipeBookStorage', JSON.stringify(newRecipes));
+            dispatch({
+                type: SAVE_NEW_RECIPE,
+                payload: newRecipes
+            });
+            dispatch(closeModal());
+        } catch(err) {
+            dispatch({
+                type: 'SAVE_NEW_RECIPE_ERROR',
+                payload: err
+            });
+        }
+    }
+}
+
 export const startEditRecipe = position => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
-        const recipe = recipes[position];
+        //const recipe = recipes[position];
         try {
             dispatch({
                 type: START_EDIT_RECIPE,
-                payload: recipe
-            })
+                payload: recipes,
+                currentPosition: position
+            });
+            dispatch(openModal());
         } catch(err) {
             dispatch({
                 type: 'START_EDIT_RECIPE_ERROR',
@@ -41,22 +67,6 @@ export const startEditRecipe = position => {
         }
     }
 }
-
-// export const closeRecipe = (recipes) => {
-//     return dispatch => {
-//         try {
-//             dispatch({
-//                 type: CLOSE_RECIPE,
-//                 payload: recipes
-//             });
-//         } catch(err) {
-//             dispatch({
-//                 type: 'CLOSE_RECIPE_ERROR',
-//                 payload: err
-//             });
-//         }
-//     }
-// }
 
 // export const saveRecipe = (recipes, recipe, position) => {
 //     return dispatch => {

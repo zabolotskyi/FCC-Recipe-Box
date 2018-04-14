@@ -1,8 +1,7 @@
 import {
-    CLOSE_RECIPE,
     DELETE_RECIPE,
+    SAVE_NEW_RECIPE,
     START_EDIT_RECIPE,
-    SAVE_RECIPE
 } from './constants';
 
 const initialState = {
@@ -18,8 +17,11 @@ const RecipeContainerReducer = (state = initialState, action) => {
         case DELETE_RECIPE:
             return { ...state, recipes: action.payload };
 
-        case START_EDIT_RECIPE:
+        case SAVE_NEW_RECIPE:
             return { ...state, recipes: action.payload };
+
+        case START_EDIT_RECIPE:
+            return { ...state, recipes: action.payload, currentPosition: action.currentPosition };
         
         default:
             return state;
