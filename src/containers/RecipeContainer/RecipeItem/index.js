@@ -22,7 +22,7 @@ class RecipeItem extends Component {
     }
 
     render() {
-        const { recipes, position } = this.props;
+        const { recipes } = this.props;
         return (
             <div>
                 <h5 className='text-center'>Ingredients</h5>

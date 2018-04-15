@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { Button } from 'react-bootstrap';
 import { openModal } from '../../components/Modal/actions';
 import RecipeContainer from '../RecipeContainer';

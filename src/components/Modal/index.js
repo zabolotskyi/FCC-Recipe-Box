@@ -41,6 +41,7 @@ class ModalWindow extends Component {
     }
 
     saveRecipe = () => {
+        this.setState({ title: 'Recipe title', ingredients: 'Recipe ingredients' });
         let recipe = {
             title: this.state.title,
             ingredients: this.state.ingredients.split(',')
