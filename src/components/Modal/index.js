@@ -2,46 +2,44 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { closeModal } from './actions';
-import { saveNewEditedRecipe, saveNewRecipe } from '../../containers/RecipeContainer/actions';
+import { closeRecipe, saveRecipe } from '../../containers/RecipeContainer/actions';
 import { selectVisibility } from './selectors';
-import { selectCurrentPosition, selectCurrentRecipe } from '../../containers/RecipeContainer/selectors';
+import { selectCurrentRecipe } from '../../containers/RecipeContainer/selectors';
 import { Button, ButtonToolbar, FormGroup, Modal, ControlLabel, FormControl } from 'react-bootstrap';
 
 class ModalWindow extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            title: 'Recipe title',
-            ingredients: 'Recipe ingredients'
+            title: props.currentRecipe.title || 'Recipe title',
+            ingredients: props.currentRecipe.ingredients || 'Recipe ingredients'
         };
     }
 
-    handleTitleChange = (event) => {
-        this.setState({ title: event.target.value });
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps !== this.props) {
+            this.setState({ title: nextProps.currentRecipe.title, ingredients: nextProps.currentRecipe.ingredients });
+        }
     }
 
     handleIngredientsChange = (event) => {
         this.setState({ ingredients: event.target.value });
     }
 
+    handleEndEditing = () => {
+        this.props.closeRecipeAction();
+    }
+
+    handleTitleChange = (event) => {
+        this.setState({ title: event.target.value });
+    }
+
     modalClose = () => {
-        this.setState({ title: 'Recipe title', ingredients: 'Recipe ingredients' });
         this.props.modalCloseAction();
     }
 
-    saveEditedRecipe = () => {
-        this.setState({ title: 'Recipe title', ingredients: 'Recipe ingredients' });
-        const { recipePosition } = this.props;
-        let recipe = {
-            title: this.state.title,
-            ingredients: this.state.ingredients.split(',')
-        };
-        this.props.saveEditedRecipeAction(recipe, recipePosition);
-    }
-
     saveRecipe = () => {
-        this.setState({ title: 'Recipe title', ingredients: 'Recipe ingredients' });
         let recipe = {
             title: this.state.title,
             ingredients: this.state.ingredients.split(',')
@@ -61,19 +59,19 @@ class ModalWindow extends Component {
                 <Modal.Body>
                     <form>
                         <FormGroup>
-                            <ControlLabel>{currentRecipe !== undefined ? currentRecipe.title : 'Recipe'}</ControlLabel>
-                            <FormControl onChange={this.handleTitleChange} type='text' defaultValue={currentRecipe !== undefined ? currentRecipe.title : this.state.title} />
+                            <ControlLabel>Recipe title</ControlLabel>
+                            <FormControl onChange={this.handleTitleChange} type='text' defaultValue={this.state.title} />
                         </FormGroup>
                         <FormGroup>
-                            <ControlLabel>{currentRecipe !== undefined ? currentRecipe.ingredients : 'Ingredients'}</ControlLabel>
-                            <FormControl onChange={this.handleIngredientsChange} type='text' defaultValue={currentRecipe !== undefined ? currentRecipe.ingredients : this.state.ingredients} />
+                            <ControlLabel>Recipe Ingredients</ControlLabel>
+                            <FormControl onChange={this.handleIngredientsChange} type='text' defaultValue={this.state.ingredients} />
                         </FormGroup>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <ButtonToolbar>
-                        <Button bsStyle='info' onClick={!!currentRecipe ? this.saveEditedRecipe : this.saveRecipe}>{currentRecipe !== undefined ? 'Edit recipe' : 'Add recipe'}</Button>
-                        <Button onClick={this.modalClose}>Close</Button>
+                        <Button bsStyle='info' disabled={!this.state.title || !this.state.ingredients} onClick={this.saveRecipe}>{currentRecipe.title ? 'Edit recipe' : 'Add recipe'}</Button>
+                        <Button onClick={this.handleEndEditing}>Close</Button>
                     </ButtonToolbar>
                 </Modal.Footer>
             </Modal>
@@ -84,13 +82,12 @@ class ModalWindow extends Component {
 const mapStateToProps = createStructuredSelector({
     showModal: selectVisibility(),
     currentRecipe: selectCurrentRecipe(),
-    recipePosition: selectCurrentPosition()
 });
 
 const mapDispatchToProps = {
+    closeRecipeAction: closeRecipe,
     modalCloseAction: closeModal,
-    saveEditedRecipeAction: saveNewEditedRecipe,
-    saveRecipeAction: saveNewRecipe
+    saveRecipeAction: saveRecipe
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalWindow);

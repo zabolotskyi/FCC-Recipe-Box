@@ -2,7 +2,6 @@ import {
     CLOSE_MODAL,
     OPEN_MODAL
 } from './constants';
-import { endEditRecipe } from '../../containers/RecipeContainer/actions';
 
 export const closeModal = () => {
     return dispatch => {
@@ -10,7 +9,6 @@ export const closeModal = () => {
             dispatch({
                 type: CLOSE_MODAL
             });
-            dispatch(endEditRecipe());
         } catch(err) {
             dispatch({
                 type: 'CLOSE_MODAL_ERROR',

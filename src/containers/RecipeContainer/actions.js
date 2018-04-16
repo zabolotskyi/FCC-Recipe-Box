@@ -1,13 +1,12 @@
 import {
     DELETE_RECIPE,
-    END_EDIT_RECIPE,
-    SAVE_NEW_EDITED_RECIPE,
-    SAVE_NEW_RECIPE,
-    START_EDIT_RECIPE
+    CLOSE_RECIPE,
+    SAVE_RECIPE,
+    SELECT_RECIPE
 } from './constants';
 import { closeModal, openModal } from '../../components/Modal/actions';
 
-export const deleteRecipe = position => {
+export const deleteRecipe = (position) => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
@@ -27,80 +26,63 @@ export const deleteRecipe = position => {
     }
 }
 
-export const endEditRecipe = () => {
+export const closeRecipe = () => {
     return dispatch => {
         try {
             dispatch({
-                type: END_EDIT_RECIPE,
-                payload: undefined
+                type: CLOSE_RECIPE
             });
+            dispatch(closeModal());
         } catch(err) {
             dispatch({
-                type: 'END_EDIT_RECIPE_ERROR',
+                type: 'CLOSE_RECIPE_ERROR',
                 payload: err
             });
         }
     }
 }
 
-export const saveNewEditedRecipe = (recipe, position) => {
+export const saveRecipe = (recipe) => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
-        recipes[position] = recipe;
+        const position = state.RecipeContainerReducer.currentPosition;
+        if (position > -1) {
+            recipes[position] = recipe;
+        } else {
+            recipes.push(recipe);       
+        }
         const newRecipes = recipes.slice();
         try {
             localStorage.setItem('recipeBookStorage', JSON.stringify(newRecipes));
             dispatch({
-                type: SAVE_NEW_EDITED_RECIPE,
+                type: SAVE_RECIPE,
                 payload: newRecipes
             });
             dispatch(closeModal());
         } catch(err) {
             dispatch({
-                type: 'SAVE_NEW_EDITED_RECIPE_ERROR',
+                type: 'SAVE_RECIPE_ERROR',
                 payload: err
             });
         }
     }
 }
 
-export const saveNewRecipe = recipe => {
-    return (dispatch, getState) => {
-        const state = getState();
-        const recipes = state.RecipeContainerReducer.recipes;
-        recipes.push(recipe);
-        const newRecipes = recipes.slice();
-        try {
-            localStorage.setItem('recipeBookStorage', JSON.stringify(newRecipes));
-            dispatch({
-                type: SAVE_NEW_RECIPE,
-                payload: newRecipes
-            });
-            dispatch(closeModal());
-        } catch(err) {
-            dispatch({
-                type: 'SAVE_NEW_RECIPE_ERROR',
-                payload: err
-            });
-        }
-    }
-}
-
-export const startEditRecipe = position => {
+export const selectRecipe = (position) => {
     return (dispatch, getState) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
         try {
             dispatch({
-                type: START_EDIT_RECIPE,
+                type: SELECT_RECIPE,
                 payload: recipes,
                 currentPosition: position
             });
             dispatch(openModal());
         } catch(err) {
             dispatch({
-                type: 'START_EDIT_RECIPE_ERROR',
+                type: 'SELECT_RECIPE_ERROR',
                 payload: err
             });
         }

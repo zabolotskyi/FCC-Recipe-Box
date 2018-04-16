@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { Button, ButtonToolbar } from 'react-bootstrap';
-import { deleteRecipe, startEditRecipe } from '../actions';
-import { selectRecipes } from '../selectors';
+import { deleteRecipe, selectRecipe } from '../actions';
 import RecipeIngredient from '../RecipeIngredient';
 
 class RecipeItem extends Component {
@@ -12,8 +10,8 @@ class RecipeItem extends Component {
         this.props.deleteRecipeAction(this.props.position);
     }
 
-    handleStartEdit = () => {
-        this.props.startEditRecipeAction(this.props.position);
+    handleSelect = () => {
+        this.props.selectRecipeAction(this.props.position);
     }
 
     renderIngredientsList = () => {
@@ -22,7 +20,6 @@ class RecipeItem extends Component {
     }
 
     render() {
-        const { recipes } = this.props;
         return (
             <div>
                 <h5 className='text-center'>Ingredients</h5>
@@ -32,20 +29,18 @@ class RecipeItem extends Component {
                 </ul>
                 <ButtonToolbar>  
                     <Button bsStyle='danger' onClick={this.handleDelete}>Delete</Button>
-                    <Button onClick={this.handleStartEdit}>Edit</Button>
+                    <Button onClick={this.handleSelect}>Edit</Button>
                 </ButtonToolbar>
             </div>
         );
     }
 }
 
-const mapStateToProps = createStructuredSelector({
-    recipes: selectRecipes()
-});
+const mapStateToProps = null;
 
 const mapDispatchToProps = {
     deleteRecipeAction: deleteRecipe,
-    startEditRecipeAction: startEditRecipe
+    selectRecipeAction: selectRecipe
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeItem);
