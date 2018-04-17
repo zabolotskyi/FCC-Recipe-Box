@@ -19,9 +19,6 @@ const RecipeContainerReducer = (state = initialState, action) => {
 
         case DELETE_RECIPE:
             return { ...state, recipes: action.payload };   
-            
-        case RECIPE_ERROR:
-            return { ...state };
 
         case SAVE_RECIPE:
             return { ...state, recipes: action.payload, currentPosition: -1 };

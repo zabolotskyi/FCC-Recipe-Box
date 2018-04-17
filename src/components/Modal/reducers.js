@@ -13,9 +13,6 @@ const ModalReducer = (state = initialState, action) => {
         case CLOSE_MODAL:
             return { ...state, modalVisibility: false };
 
-        case MODAL_ERROR:
-            return { ...state };
-
         case OPEN_MODAL:
             return { ...state, modalVisibility: true };
         
