@@ -1,6 +1,7 @@
 import {
     CLOSE_MODAL,
-    OPEN_MODAL
+    MODAL_ERROR,
+    OPEN_MODAL,
 } from './constants';
 
 export const closeModal = () => {
@@ -11,9 +12,10 @@ export const closeModal = () => {
             });
         } catch(err) {
             dispatch({
-                type: 'CLOSE_MODAL_ERROR',
+                type: MODAL_ERROR,
                 payload: err
             });
+            alert('An error occurred. Check out the information in the console.');
         }
     }
 }
@@ -26,9 +28,10 @@ export const openModal = () => {
             });
         } catch(err) {
             dispatch({
-                type: 'OPEN_MODAL_ERROR',
+                type: MODAL_ERROR,
                 payload: err
             });
+            alert('An error occurred. Check out the information in the console.');
         }
     }
 }

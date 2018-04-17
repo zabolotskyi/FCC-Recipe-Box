@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { closeModal } from './actions';
 import { closeRecipe, saveRecipe } from '../../containers/RecipeContainer/actions';
 import { selectVisibility } from './selectors';
 import { selectCurrentRecipe } from '../../containers/RecipeContainer/selectors';
@@ -33,10 +32,6 @@ class ModalWindow extends Component {
 
     handleTitleChange = (event) => {
         this.setState({ title: event.target.value });
-    }
-
-    modalClose = () => {
-        this.props.modalCloseAction();
     }
 
     saveRecipe = () => {
@@ -86,7 +81,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = {
     closeRecipeAction: closeRecipe,
-    modalCloseAction: closeModal,
     saveRecipeAction: saveRecipe
 }
 

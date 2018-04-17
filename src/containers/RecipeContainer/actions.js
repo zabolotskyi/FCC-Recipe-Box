@@ -1,6 +1,7 @@
 import {
     DELETE_RECIPE,
     CLOSE_RECIPE,
+    RECIPE_ERROR,
     SAVE_RECIPE,
     SELECT_RECIPE
 } from './constants';
@@ -19,9 +20,10 @@ export const deleteRecipe = (position) => {
             });
         } catch(err) {
             dispatch({
-                type: 'DELETE_RECIPE_ERROR',
+                type: RECIPE_ERROR,
                 payload: err
             });
+            alert('An error occurred. Check out the information in the console.');
         }
     }
 }
@@ -35,9 +37,10 @@ export const closeRecipe = () => {
             dispatch(closeModal());
         } catch(err) {
             dispatch({
-                type: 'CLOSE_RECIPE_ERROR',
+                type: RECIPE_ERROR,
                 payload: err
             });
+            alert('An error occurred. Check out the information in the console.');
         }
     }
 }
@@ -47,12 +50,12 @@ export const saveRecipe = (recipe) => {
         const state = getState();
         const recipes = state.RecipeContainerReducer.recipes;
         const position = state.RecipeContainerReducer.currentPosition;
-        if (position > -1) {
-            recipes[position] = recipe;
-        } else {
-            recipes.push(recipe);       
-        }
         const newRecipes = recipes.slice();
+        if (position > -1) {
+            newRecipes[position] = recipe;
+        } else {
+            newRecipes.push(recipe);       
+        }
         try {
             localStorage.setItem('recipeBookStorage', JSON.stringify(newRecipes));
             dispatch({
@@ -62,29 +65,28 @@ export const saveRecipe = (recipe) => {
             dispatch(closeModal());
         } catch(err) {
             dispatch({
-                type: 'SAVE_RECIPE_ERROR',
+                type: RECIPE_ERROR,
                 payload: err
             });
+            alert('An error occurred. Check out the information in the console.');
         }
     }
 }
 
 export const selectRecipe = (position) => {
-    return (dispatch, getState) => {
-        const state = getState();
-        const recipes = state.RecipeContainerReducer.recipes;
+    return (dispatch) => {
         try {
             dispatch({
                 type: SELECT_RECIPE,
-                payload: recipes,
-                currentPosition: position
+                payload: position
             });
             dispatch(openModal());
         } catch(err) {
             dispatch({
-                type: 'SELECT_RECIPE_ERROR',
+                type: RECIPE_ERROR,
                 payload: err
             });
+            alert('An error occurred. Check out the information in the console.');
         }
     }
 }
